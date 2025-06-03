@@ -35,6 +35,8 @@ public class Operator
                 boolDiv = true;
                 targetPriorityOperatorIndex = i;
             }
+
+            // Mangler else
         }
         
         return targetPriorityOperatorIndex;

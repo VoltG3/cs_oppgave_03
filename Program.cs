@@ -33,16 +33,22 @@ class Program
 
             if (rawArray[i] == "+" && i - 1 >= 0 && i + 1 < rawArray.Length)
             {
-                string r = rawArray[i - 1] + rawArray[i] + rawArray[i + 1];
-                Console.WriteLine($"{ r }");
+                    string r = rawArray[i - 1] + rawArray[i] + rawArray[i + 1];
+                    Console.WriteLine($" expession { r }");
+                
+                Calculate calc = new Calculate();
+                string result = calc.Expression(rawArray[i - 1], rawArray[i], rawArray[i + 1]);
+                Console.WriteLine($" result { result }");
             }
          
         }
         
         // Get PriorityOperatorIndex
+        /*
         string FirstIndex = Operator.Index(rawArray).ToString();
         Console.WriteLine($"PriorityOperatorIndex: { FirstIndex }");
-         
+        */
+        
         /*
         // Debug Calculator
         Calculator cal = new Calculator();
