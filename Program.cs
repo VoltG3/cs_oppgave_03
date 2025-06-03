@@ -26,19 +26,24 @@ class Program
        // Console.WriteLine($"length: { preDefinedUserInput.Length}");
         
         // init Array and Array length
-        string[] rawArray = preDefinedUserInput.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        for (int i = 0; i < rawArray.Length; i++)
+        string[] expressionArray = preDefinedUserInput.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        for (int i = 0; i < expressionArray.Length; i++)
         {
            // Console.WriteLine($"{i}: {rawArray[i]}");
 
-            if (rawArray[i] == "+" && i - 1 >= 0 && i + 1 < rawArray.Length)
+            // Get Next Operator
+            var nextOperator = Operator.Index(expressionArray);
+            Console.WriteLine($"NextOperator: { nextOperator }");
+            
+            if (i == nextOperator && i - 1 >= 0 && i + 1 < expressionArray.Length)
             {
-                    string r = rawArray[i - 1] + rawArray[i] + rawArray[i + 1];
-                    Console.WriteLine($" expession { r }");
+                Console.WriteLine($" expession: operand { expressionArray[i - 1] } operator { expressionArray[i] } operand { expressionArray[i + 1] }");
                 
                 Calculate calc = new Calculate();
-                string result = calc.Expression(rawArray[i - 1], rawArray[i], rawArray[i + 1]);
+                string result = calc.Expression(expressionArray[i - 1], expressionArray[i], expressionArray[i + 1]);
                 Console.WriteLine($" result { result }");
+                
+                
             }
          
         }
