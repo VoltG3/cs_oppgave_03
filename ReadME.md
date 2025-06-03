@@ -1,0 +1,13 @@
+## cs_oppgave_03
+___
+### Pseudocode
+```sh
+// ToDo :
+//      1. Recursively process the array until array.Length == 1
+//      2. Find the 'first operator' with the 'highest priority'
+//      3. Store the 'position' of this 'highest priority operator' 
+//      4. Expression: P[i-1] P[i] P[i+1] = P[Number Calc Number]
+//      5. Remove elements at P[i] and P[i+1], shrink the array by 2
+//      5. Replace P[i-1] with expression result
+//      6. Repeat from step 1 with the updated array
+```
