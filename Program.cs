@@ -43,10 +43,33 @@ class Program
                 string result = calc.Expression(expressionArray[i - 1], expressionArray[i], expressionArray[i + 1]);
                 Console.WriteLine($" result { result }");
                 
+                expressionArray[i - 1] = result;
+                
+                
+                string[] tempArray = new string[expressionArray.Length - 2];
+                int newIndex = 0;
+                
+                for (int j = 0; j < tempArray.Length; j++)
+                {
+                    if (j != i && j != i + 1) // skip operator and right operand
+                    {
+                        tempArray[newIndex] = expressionArray[j];
+                        newIndex++;
+                    }
+                }
+                
+                expressionArray = tempArray;
                 
             }
          
         }
+        
+        Console.WriteLine("Jaunais masīvs:");
+        foreach (string item in expressionArray)
+        {
+            Console.WriteLine(item);
+        }
+        
         
         // Get PriorityOperatorIndex
         /*
