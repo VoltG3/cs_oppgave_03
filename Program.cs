@@ -4,90 +4,59 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("cs_oppgave_03 -> onloaded");
-
-        // ToDo :
-        //      1. Recursively process the array until array.Length == 1
-        //      2. Find the 'first operator' with the 'highest priority'
-        //      3. Store the 'position' of this 'highest priority operator' 
-        //      4. Expression: P[i-1] P[i] P[i+1] = P[Number Calc Number]
-        //      5. Remove elements at P[i] and P[i+1], shrink the array by 2
-        //      5. Replace P[i-1] with expression result
-        //      6. Repeat from step 1 with the updated array
-        
-        // Operator Priority:
-        // 1. Multiplication (*)
-        // 2. Division (/)
-        // 3. Addition (+) and Subtraction (-) – equal precedence, evaluate left to right
         
         string preDefinedUserInput = "12 + 12 - 4 * 3 / 7";
-        //Console.WriteLine("preDefinedUserInput");
-       // Console.WriteLine(preDefinedUserInput);
-       // Console.WriteLine($"length: { preDefinedUserInput.Length}");
         
-        // init Array and Array length
+        // ToDo -> readLine userInput
+        
+        // ToDo -> validation
+        
         string[] expressionArray = preDefinedUserInput.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        
         for (int i = 0; i < expressionArray.Length; i++)
         {
-           // Console.WriteLine($"{i}: {rawArray[i]}");
-
-            // Get Next Operator
-            var nextOperator = Operator.Index(expressionArray);
-            Console.WriteLine($"NextOperator: { nextOperator }");
+            // get the next priority operator
+            var opIndex = Operator.Index(expressionArray);
             
-            if (i == nextOperator && i - 1 >= 0 && i + 1 < expressionArray.Length)
+            // target executable part of expression by priority operator
+            if (i == opIndex && i - 1 >= 0 && i + 1 < expressionArray.Length)
             {
-                Console.WriteLine($" expession: operand { expressionArray[i - 1] } operator { expressionArray[i] } operand { expressionArray[i + 1] }");
+                string left = expressionArray[i - 1];
+                string op = expressionArray[i];
+                string right = expressionArray[i + 1];
                 
+                // execute part of the expression
                 Calculate calc = new Calculate();
-                string result = calc.Expression(expressionArray[i - 1], expressionArray[i], expressionArray[i + 1]);
-                Console.WriteLine($" result { result }");
+                string result = calc.Expression(left, op, right);
                 
-                expressionArray[i - 1] = result;
+                // replace the part of the expression with the result
+                List<string> tempList = new List<string>();
                 
-                
-                string[] tempArray = new string[expressionArray.Length - 2];
-                int newIndex = 0;
-                
-                for (int j = 0; j < tempArray.Length; j++)
+                for (int j = 0; j < expressionArray.Length; j++)
                 {
-                    if (j != i && j != i + 1) // skip operator and right operand
+                    if (j == opIndex - 1)
                     {
-                        tempArray[newIndex] = expressionArray[j];
-                        newIndex++;
+                        tempList.Add(result); 
+                    }
+                    
+                    if (j != opIndex && j != opIndex + 1 && j != opIndex - 1)
+                    {
+                        tempList.Add(expressionArray[j]);
                     }
                 }
-                
-                expressionArray = tempArray;
-                
+
+                expressionArray = tempList.ToArray();
             }
          
         }
         
-        Console.WriteLine("Jaunais masīvs:");
+        // ToDo -> print result, step by step
+        
         foreach (string item in expressionArray)
         {
             Console.WriteLine(item);
         }
         
-        
-        // Get PriorityOperatorIndex
-        /*
-        string FirstIndex = Operator.Index(rawArray).ToString();
-        Console.WriteLine($"PriorityOperatorIndex: { FirstIndex }");
-        */
-        
-        /*
-        // Debug Calculator
-        Calculator cal = new Calculator();
-        Console.WriteLine(cal.Multiply(3, 4));
-        Console.WriteLine(cal.Multiply(3.9, 4.9));
-        Console.WriteLine(cal.Divide(3, 4));
-        Console.WriteLine(cal.Divide(3.9, 4.9));
-        Console.WriteLine(cal.Add(3, 2));
-        Console.WriteLine(cal.Add(3.6, 2.5));
-        Console.WriteLine(cal.Subtract(3, 2));
-        Console.WriteLine(cal.Subtract(3.8, 2.9));
-        */
+        // ToDo -> TextFormat
     }
 }
