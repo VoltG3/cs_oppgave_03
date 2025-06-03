@@ -20,16 +20,16 @@ class Program
         // 2. Division (/)
         // 3. Addition (+) and Subtraction (-) – equal precedence, evaluate left to right
         
-        string preDefinedUserInput = "12 + 12 - 4";
-        Console.WriteLine("preDefinedUserInput");
-        Console.WriteLine(preDefinedUserInput);
-        Console.WriteLine($"length: { preDefinedUserInput.Length}");
+        string preDefinedUserInput = "12 + 12 - 4 * 3 / 7";
+        //Console.WriteLine("preDefinedUserInput");
+       // Console.WriteLine(preDefinedUserInput);
+       // Console.WriteLine($"length: { preDefinedUserInput.Length}");
         
         // init Array and Array length
         string[] rawArray = preDefinedUserInput.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         for (int i = 0; i < rawArray.Length; i++)
         {
-            Console.WriteLine($"{i}: {rawArray[i]}");
+           // Console.WriteLine($"{i}: {rawArray[i]}");
 
             if (rawArray[i] == "+" && i - 1 >= 0 && i + 1 < rawArray.Length)
             {
@@ -39,6 +39,10 @@ class Program
          
         }
         
+        // Get PriorityOperatorIndex
+        string FirstIndex = Operator.Index(rawArray).ToString();
+        Console.WriteLine($"PriorityOperatorIndex: { FirstIndex }");
+         
         /*
         // Debug Calculator
         Calculator cal = new Calculator();

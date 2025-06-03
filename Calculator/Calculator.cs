@@ -10,5 +10,4 @@ public class Calculator : IMultiplication, IDivision, IAddition, ISubtraction
     public double Add(double a, double b) => a + b;
     public int Subtract(int a, int b) => a - b;
     public double Subtract(double a, double b) => a - b;
-    
 }
