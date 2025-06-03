@@ -39,6 +39,17 @@ class Program
          
         }
         
-        
+        /*
+        // Debug Calculator
+        Calculator cal = new Calculator();
+        Console.WriteLine(cal.Multiply(3, 4));
+        Console.WriteLine(cal.Multiply(3.9, 4.9));
+        Console.WriteLine(cal.Divide(3, 4));
+        Console.WriteLine(cal.Divide(3.9, 4.9));
+        Console.WriteLine(cal.Add(3, 2));
+        Console.WriteLine(cal.Add(3.6, 2.5));
+        Console.WriteLine(cal.Subtract(3, 2));
+        Console.WriteLine(cal.Subtract(3.8, 2.9));
+        */
     }
 }
