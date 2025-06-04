@@ -13,10 +13,17 @@ class Program
         
         string[] expressionArray = preDefinedUserInput.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         
+        // initilize StepsPrinter
+        StepsPrinter stepsPrinter = new StepsPrinter();
+        stepsPrinter.AddArr(expressionArray);
+        
         while (expressionArray.Length > 1)
         {
             // get the next priority operator
             var opIndex = Operator.Index(expressionArray);
+            
+            // set the next priority operator, for printer
+            stepsPrinter.AddStep(opIndex.ToString());
             
             if (opIndex == -1 || opIndex <= 0 || opIndex >= expressionArray.Length - 1)
                 break;
@@ -47,6 +54,14 @@ class Program
 
             expressionArray = tempList.ToArray();
         }
+        
+        //
+        //
+        
+        stepsPrinter.PrintAllSteps();
+        
+        //
+        //
         
         // ToDo -> print result, step by step
         
