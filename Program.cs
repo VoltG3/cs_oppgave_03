@@ -5,40 +5,32 @@ class Program
     static void Main(string[] args)
     {
         
-        string preDefinedUserInput = "12 + 12 - 4 * 3 / 7";
-        
-        // 12 + 12 - 4 * 3 / 7  :: 5
-        // 12 + 12 - 12 / 7     :: 5
-        // 12 + 12 - ..   :: 1 :: 1
-        //
-        //
-        //
+        string preDefinedUserInput = "12 + 12 - 4 * 3 / 7 - 4 + 12 * 7 / 10 - 5 + 6 + 10";
         
         // ToDo -> readLine userInput
         
         // ToDo -> validation
         
+        // ToDo -> brackets
+        
+        // Initialize
         string[] expressionArray = preDefinedUserInput.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        Printer printer = new Printer();
         
-        // initilize StepsPrinter
-        StepsPrinter stepsPrinter = new StepsPrinter();
-  //stepsPrinter.AddArr(expressionArray);
-  
-  //
-  //
-  //
-  stepsPrinter.AddList(expressionArray.ToList());
+        // Line ...
+        int totalLength = preDefinedUserInput.Length;
+            totalLength += 17;
+            printer.AddTotalLength(totalLength.ToString());
         
-  
+        printer.AddList(expressionArray.ToList());
+        
         while (expressionArray.Length > 1)
         {
             // get the next priority operator
             var opIndex = Operator.Index(expressionArray);
             
-   // Console.WriteLine($"NEXT OPERATOR {opIndex}");
-            
             // set the next priority operator, for printer
-            stepsPrinter.AddStep(opIndex.ToString());
+            printer.AddStep(opIndex.ToString());
             
             if (opIndex == -1 || opIndex <= 0 || opIndex >= expressionArray.Length - 1)
                 break;
@@ -66,43 +58,17 @@ class Program
                     tempList.Add(expressionArray[j]);
                 }
             }
-
-            expressionArray = tempList.ToArray();
-   //         
-   //
-   stepsPrinter.AddList(expressionArray.ToList());
-   //
-   //
-   
-            /*
-             
-            foreach (string item in expressionArray)
-            {
-                Console.Write(item);
-            }
-
-            ; Console.WriteLine("\n");
             
-            */
+            // set the new expressionArray
+            expressionArray = tempList.ToArray();
+            
+            //Console.WriteLine($"Result { result }");
+            
+            // set the new expressionArray to printer
+            printer.AddList(expressionArray.ToList());
+            
         }
         
-        stepsPrinter.PrintAllExpressionLists();
-        
-        //
-        //
-        
- //stepsPrinter.PrintAllSteps();
-        
-        //
-        //
-        
-        // ToDo -> print result, step by step
-        
-        foreach (string item in expressionArray)
-        {
-            Console.WriteLine(item);
-        }
-        
-        // ToDo -> TextFormat
+        printer.CalculatingSequence();
     }
 }
