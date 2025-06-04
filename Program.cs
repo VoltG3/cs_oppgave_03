@@ -7,6 +7,13 @@ class Program
         
         string preDefinedUserInput = "12 + 12 - 4 * 3 / 7";
         
+        // 12 + 12 - 4 * 3 / 7  :: 5
+        // 12 + 12 - 12 / 7     :: 5
+        // 12 + 12 - ..   :: 1 :: 1
+        //
+        //
+        //
+        
         // ToDo -> readLine userInput
         
         // ToDo -> validation
@@ -21,6 +28,8 @@ class Program
         {
             // get the next priority operator
             var opIndex = Operator.Index(expressionArray);
+            
+            Console.WriteLine($"NEXT OPERATOR {opIndex}");
             
             // set the next priority operator, for printer
             stepsPrinter.AddStep(opIndex.ToString());
