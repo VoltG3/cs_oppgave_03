@@ -3,13 +3,13 @@ namespace cs_oppgave_03;
 public class StepsPrinter
 {
     // Fields
-    public string[]? expressionsArray { get; set; } = new string[0];
+    public List<List<string>>? ExpressionsLists { get; set; } = new List<List<string>>();
     public List<string>? expressionsSteps{ get; set; } = new List<string>();
 
     // Constructor
-    public void AddArr(string[] arr)
+    public void AddList(List<string> list)
     {
-        expressionsArray = arr;
+        ExpressionsLists?.Add(list);
     }
     
     public void AddStep(string step)
@@ -18,8 +18,29 @@ public class StepsPrinter
     }
     
     // Methods & Functions
+    public void PrintAllExpressionLists()
+    {
+        if (ExpressionsLists == null || ExpressionsLists.Count == 0)
+        {
+            Console.WriteLine("Nav neviena izteiksmes soļa.");
+            return;
+        }
+
+        int stepNumber = 1;
+        foreach (var list in ExpressionsLists)
+        {
+            Console.Write($"Step {stepNumber++}: ");
+            foreach (var item in list)
+            {
+                Console.Write(item + " ");
+            }
+            Console.WriteLine();
+        }
+    }
+
     public void PrintAllSteps()
     {
+        /*
         List<string> arr = expressionsArray.ToList();
         
         foreach (string targetIndex in expressionsSteps)
@@ -33,22 +54,22 @@ public class StepsPrinter
                         $"{ TextColor.Color.CY_B }" +
                         $"{ expressionsArray[i] }" +
                         $"{ TextColor.Color.RS }");
+                    
+                    //arr.RemoveAt(int.Parse(targetIndex));
                 }
                 else
                 {
                     Console.Write($"{ expressionsArray[i] }");
                 }
-                
-                
             }
             Console.WriteLine("\n");
-        }
+        } */
     }
     
     // Destructor
     ~StepsPrinter()
     {
-        expressionsArray = null;
+        ExpressionsLists = null;
         expressionsSteps = null;
     }
 }

@@ -22,14 +22,20 @@ class Program
         
         // initilize StepsPrinter
         StepsPrinter stepsPrinter = new StepsPrinter();
-        stepsPrinter.AddArr(expressionArray);
+  //stepsPrinter.AddArr(expressionArray);
+  
+  //
+  //
+  //
+  stepsPrinter.AddList(expressionArray.ToList());
         
+  
         while (expressionArray.Length > 1)
         {
             // get the next priority operator
             var opIndex = Operator.Index(expressionArray);
             
-            Console.WriteLine($"NEXT OPERATOR {opIndex}");
+   // Console.WriteLine($"NEXT OPERATOR {opIndex}");
             
             // set the next priority operator, for printer
             stepsPrinter.AddStep(opIndex.ToString());
@@ -62,12 +68,30 @@ class Program
             }
 
             expressionArray = tempList.ToArray();
+   //         
+   //
+   stepsPrinter.AddList(expressionArray.ToList());
+   //
+   //
+   
+            /*
+             
+            foreach (string item in expressionArray)
+            {
+                Console.Write(item);
+            }
+
+            ; Console.WriteLine("\n");
+            
+            */
         }
         
+        stepsPrinter.PrintAllExpressionLists();
+        
         //
         //
         
-        stepsPrinter.PrintAllSteps();
+ //stepsPrinter.PrintAllSteps();
         
         //
         //
