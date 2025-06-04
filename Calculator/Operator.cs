@@ -4,20 +4,24 @@ public class Operator
 {
     public static int Index(string[] arr)
     {
-        // Priority sequence: * / + -
-        string[] priority = new[] { "*", "/", "+", "-" };
-
-        foreach (string op in priority)
+        // first priority: '*' and '/'
+        for (int i = 0; i < arr.Length; i++)
         {
-            for (int i = 0; i < arr.Length; i++)
+            if (arr[i] == "*" || arr[i] == "/")
             {
-                if (arr[i] == op)
-                {
-                    return i;
-                }
+                return i;
             }
         }
-        
+
+        // second priority: '+' un '-'
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (arr[i] == "+" || arr[i] == "-")
+            {
+                return i;
+            }
+        }
+
         return -1;
     }
 }
