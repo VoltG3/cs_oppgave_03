@@ -6,7 +6,7 @@ class Program
     {
         
         string preDefinedUserInput = "12 + 12 - 4 * 3 / 7 - 4 + 12 * 7 / 10 - 5 + 6 + 10";
-        //string preDefinedUserInput = "10 - 15 - 45";
+        string userInput = "10.78r6 - 15.2334 - g - 45.0412";
         
         // ToDo -> readLine userInput
         // ToDo -> random expression
@@ -15,5 +15,9 @@ class Program
         // ToDo -> refactoring
         
         Calculator.Calc(preDefinedUserInput);
+
+        if (UserInput.IsInvalid(userInput)) return;
+        
+        Calculator.Calc(userInput);
     }
 }
