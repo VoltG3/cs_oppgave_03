@@ -1,49 +1,65 @@
-using System.Linq.Expressions;
+namespace cs_oppgave_03;
 
-namespace  cs_oppgave_03;
-
-public class Calculate : IMultiplication, IDivision, IAddition, ISubtraction
+public class Calculator
 {
-    public int Multiply(int a, int b) => a * b;
-    public double Multiply(double a, double b) => a * b;
-    public int Divide(int a, int b) => a / b;
-    public double Divide(double a, double b) => a / b;
-    public int Add(int a, int b) => a + b;
-    public double Add(double a, double b) => a + b;
-    public int Subtract(int a, int b) => a - b;
-    public double Subtract(double a, double b) => a - b;
-
-    public string Expression(string firstOperand, string targetOperator, string secondOperand)
+    public static void Calc(string expressionString)
     {
-        bool isFirstInt = int.TryParse(firstOperand, out var a);
-        bool isSecondInt = int.TryParse(secondOperand, out var b);
+        // Initialize
+        string[] expressionArray = expressionString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        Printer printer = new Printer();
         
-        if (isFirstInt && isSecondInt)
+        // Line ...
+        int totalLength = expressionString.Length;
+            totalLength += 17;
+            printer.AddTotalLength(totalLength.ToString());
+        
+        printer.AddList(expressionArray.ToList());
+        
+        while (expressionArray.Length > 1)
         {
-            var resultInteger = targetOperator switch
-            {
-                "*" => Multiply(a, b),
-                "/" => Divide(a, b),
-                "+" => Add(a, b),
-                "-" => Subtract(a, b),
-                _ => throw new Exception("Invalid operator")
-            };
+            // get the next priority operator
+            var opIndex = Operator.Index(expressionArray);
             
-            return resultInteger.ToString();
+            // set the next priority operator, for printer
+            printer.AddStep(opIndex.ToString());
+            
+            if (opIndex == -1 || opIndex <= 0 || opIndex >= expressionArray.Length - 1)
+                break;
+            
+            string left = expressionArray[opIndex - 1];
+            string op = expressionArray[opIndex];
+            string right = expressionArray[opIndex + 1];
+                
+            // execute part of the expression
+            //Calculate calc = new Calculate();
+            string result = Expression.Calc(left, op, right);
+                
+            // replace the part of the expression with the result
+            List<string> tempList = new List<string>();
+                
+            for (int j = 0; j < expressionArray.Length; j++)
+            {
+                if (j == opIndex - 1) 
+                { 
+                    tempList.Add(result); 
+                }
+                
+                if (j != opIndex && j != opIndex + 1 && j != opIndex - 1)
+                { 
+                    tempList.Add(expressionArray[j]);
+                }
+            }
+            
+            // set the new expressionArray
+            expressionArray = tempList.ToArray();
+            
+            //Console.WriteLine($"Result { result }");
+            
+            // set the new expressionArray to printer
+            printer.AddList(expressionArray.ToList());
+            
         }
         
-        double doubleA = double.Parse(firstOperand);
-        double doubleB = double.Parse(secondOperand);
-
-        var resultDouble = targetOperator switch
-        {
-            "*" => Multiply(doubleA, doubleB),
-            "/" => Divide(doubleA, doubleB),
-            "+" => Add(doubleA, doubleB),
-            "-" => Subtract(doubleA, doubleB),
-            _ => throw new Exception("Invalid operator")
-        };
-        
-        return resultDouble.ToString();
+        printer.CalculatingSequence();
     }
 }

@@ -26,7 +26,11 @@ public class Printer
     // Methods & Functions
     public void CalculatingSequence()
     {
-        // HEADER
+        
+        // ##############
+        // #   HEADER   #
+        // ##############
+        
         List<string> tempList = ExpressionSequences[0].ToList();
         
         // draw line by totalCount
@@ -57,7 +61,10 @@ public class Printer
         
         Console.WriteLine();
         
-        // CONTENT
+        // ###############
+        // #   CONTENT   #
+        // ###############
+        
         for (int index = 0; index < operationSteps.Count; index++)
         {
             Console.Write($"" +
@@ -100,7 +107,10 @@ public class Printer
             Console.WriteLine();
         }
         
-        // FOOTER
+        // ##############
+        // #   FOOTER   #
+        // ##############
+        
         string lastListItem = string.Join(" ", ExpressionSequences[^1]);
         
         Console.Write($"{ TextFormat.Border(5)}" +
