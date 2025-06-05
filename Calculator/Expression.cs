@@ -1,10 +1,19 @@
-namespace cs_oppgave_03;
+namespace  cs_oppgave_03;
 
-public class Expression
+public class Expression : IMultiplication, IDivision, IAddition, ISubtraction
 {
+    public int Multiply(int a, int b) => a * b;
+    public double Multiply(double a, double b) => a * b;
+    public int Divide(int a, int b) => a / b;
+    public double Divide(double a, double b) => a / b;
+    public int Add(int a, int b) => a + b;
+    public double Add(double a, double b) => a + b;
+    public int Subtract(int a, int b) => a - b;
+    public double Subtract(double a, double b) => a - b;
+    
     public static string Calc(string firstOperand, string targetOperator, string secondOperand)
     {
-        var calc = new Formula();
+        var calc = new Expression();
         
         bool isFirstInt = int.TryParse(firstOperand, out var a);
         bool isSecondInt = int.TryParse(secondOperand, out var b);

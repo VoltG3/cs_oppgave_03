@@ -5,7 +5,7 @@ class Program
     static void Main(string[] args)
     {
         
-        string preDefinedUserInput = "12 + 12 - 4 * 3 / 7 - 4 + 12 * 7 / 10 - 5 + 6 + 10";
+        string preDefinedUserInput = "12.965 + 12.345 - 4.00 * 3 / 7 - 4 + 12 * 7 / 10 - 5 + 6 + 10";
         string userInput = "10.78r6 - 15.2334 - g - 45.0412";
         
         // ToDo -> readLine userInput

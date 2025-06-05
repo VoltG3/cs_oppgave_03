@@ -25,4 +25,20 @@ public class Validation
                 return false;
         }
     }
+
+    public static string FormatDouble(string item)
+    {
+        bool isDouble = double.TryParse(item, out var number);
+        
+        
+        if (number % 1 == 0)
+        {
+            return ((int)number).ToString();
+        }
+
+        else
+        {
+            return Math.Round(number, 2).ToString("0.##");
+        }
+    }
 }
