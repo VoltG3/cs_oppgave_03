@@ -4,62 +4,33 @@ public class Calculator
 {
     public static void Calc(string expressionString)
     {
-        // Initialize
-        string[] token = Helper.PrepareExpression(expressionString);
-        Printer printer = new Printer();
+        string[] tokens = Helper.PrepareExpression(expressionString);
+        var printer = new Printer();
+
+        int paddingLength = Helper.CalculatePaddingLength(expressionString);
+        printer.SetTotalLength(paddingLength.ToString());
         
-        // Line ...
-        int totalLength = expressionString.Length;
-            totalLength += 17;
-            printer.SetTotalLength(totalLength.ToString());
-        
-        printer.AddList(token.ToList());
-        
-        while (token.Length > 1)
+        printer.AddList(tokens.ToList());
+
+        while (tokens.Length > 1)
         {
-            // get the next priority operator
-            var opIndex = Operator.Index(token);
-            
-            // set the next priority operator, for printer
-            printer.AddStep(opIndex.ToString());
-            
-            if (opIndex == -1 || opIndex <= 0 || opIndex >= token.Length - 1)
+            int operatorIndex = Operator.Index(tokens);
+            if (Helper.IsInvalidOperatorIndex(operatorIndex, tokens.Length))
                 break;
-            
-            string left = token[opIndex - 1];
-            string op = token[opIndex];
-            string right = token[opIndex + 1];
-                
-            // execute part of the expression
+
+            printer.AddStep(operatorIndex.ToString());
+
+            string left = tokens[operatorIndex - 1];
+            string op = tokens[operatorIndex];
+            string right = tokens[operatorIndex + 1];
+
             string result = Expression.Calc(left, op, right);
-                 //result = Formatting.IsUnformattedDouble(result);
-            
-            // replace the part of the expression with the result
-            List<string> tempList = new List<string>();
-                
-            for (int j = 0; j < token.Length; j++)
-            {
-                if (j == opIndex - 1) 
-                { 
-                    tempList.Add(result); 
-                }
-                
-                if (j != opIndex && j != opIndex + 1 && j != opIndex - 1)
-                { 
-                    tempList.Add(token[j]);
-                }
-            }
-            
-            // set the new expressionArray
-            token = tempList.ToArray();
-            
-            //Console.WriteLine($"Result { result }");
-            
-            // set the new expressionArray to printer
-            printer.AddList(token.ToList());
-            
+
+            List<string> updatedTokens = Helper.ReplaceWithResult(tokens, operatorIndex, result);
+            tokens = updatedTokens.ToArray();
+            printer.AddList(updatedTokens);
         }
-        
+
         printer.CalculatingSequence();
     }
 }
