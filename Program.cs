@@ -13,11 +13,31 @@ class Program
         // ToDo -> validation
         // ToDo -> brackets
         // ToDo -> refactoring
+        // ToDo -> recursive
         
         Calculator.Calc(preDefinedUserInput);
 
-        if (UserInput.IsInvalid(userInput)) return;
+       // if (Validation.UserInput(userInput)) return;
         
-        Calculator.Calc(userInput);
+        //Calculator.Calc(userInput);
+
+        
+        
+        string tmp = "12.3424 - 5.543 + 0.01 + 13.00";
+        string[] tmp2 = tmp.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        for (int i = 0; i < tmp2.Length; i++)
+        {
+            Console.Write($"Checking: {tmp2[i]}");
+            if (Validation.IsDouble(tmp2[i]))
+            {
+                tmp2[i] = Formatting.IsUnformattedDouble(tmp2[i]);
+            }
+        }
+
+        foreach (string item in tmp2)
+        {
+            Console.WriteLine(item + " ");
+        }
     }
 }

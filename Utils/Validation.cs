@@ -1,5 +1,8 @@
 namespace cs_oppgave_03;
 
+using System;
+using System.Globalization;
+
 public class Validation
 {
     public static bool IsInteger(string item)
@@ -9,9 +12,9 @@ public class Validation
     
     public static bool IsDouble(string item)
     {
-        return double.TryParse(item, out _);
+        return double.TryParse(item, NumberStyles.Float, CultureInfo.InvariantCulture, out _);
     }
-
+    
     public static bool IsOperator(string item)
     {
         switch (item)
@@ -25,20 +28,46 @@ public class Validation
                 return false;
         }
     }
-
-    public static string FormatDouble(string item)
+    
+    public static bool UserInput(string userString)
     {
-        bool isDouble = double.TryParse(item, out var number);
+        string[] token = userString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var invalidIndices = new List<int>();
+        bool isTokenCorrupted = false;
         
-        
-        if (number % 1 == 0)
+        for (int i = 0; i < token.Length; i++)
         {
-            return ((int)number).ToString();
+            string tokenItem = token[i];
+            
+            bool isInt = IsInteger(tokenItem);
+            bool isDouble = IsDouble(tokenItem);
+            bool isOperator = IsOperator(tokenItem);
+            
+            if (!(isInt || isDouble || isOperator))
+            {
+                invalidIndices.Add(i);
+                isTokenCorrupted = true;
+            }
         }
 
-        else
+        if (isTokenCorrupted)
         {
-            return Math.Round(number, 2).ToString("0.##");
+            var invalid = new HashSet<int>(invalidIndices);
+            
+            TextFormat.Space(1);
+            Console.WriteLine($"{ TextFormat.Border(3)}{ TextColor.Color.RD_B }Invalid input{ TextColor.Color.RS }");
+            
+            Console.Write($"{ TextFormat.Border(3) }");
+            for (int i = 0; i < token.Length; i++)
+            {
+                var color = invalid.Contains(i) ? TextColor.Color.RD_B : TextColor.Color.BL_B;
+                Console.Write($"{ color }{ token[i] }{ TextColor.Color.RS } ");
+            }
+            TextFormat.Space(1);
+            
+            return true;
         }
+        
+        return false;
     }
 }

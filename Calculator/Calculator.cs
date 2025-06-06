@@ -6,6 +6,8 @@ public class Calculator
     {
         // Initialize
         string[] expressionArray = expressionString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                 expressionArray = Formatting.IsUnformattedDoubleInArray(expressionArray);
+        
         Printer printer = new Printer();
         
         // Line ...
@@ -33,7 +35,9 @@ public class Calculator
             // execute part of the expression
             //Calculate calc = new Calculate();
             string result = Expression.Calc(left, op, right);
-                
+            
+            //result = Formatting.IsUnformattedDouble(result);
+            
             // replace the part of the expression with the result
             List<string> tempList = new List<string>();
                 

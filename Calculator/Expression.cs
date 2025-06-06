@@ -18,6 +18,7 @@ public class Expression : IMultiplication, IDivision, IAddition, ISubtraction
         bool isFirstInt = int.TryParse(firstOperand, out var a);
         bool isSecondInt = int.TryParse(secondOperand, out var b);
         
+        // if both are integers
         if (isFirstInt && isSecondInt)
         {
             var resultInteger = targetOperator switch
@@ -29,7 +30,6 @@ public class Expression : IMultiplication, IDivision, IAddition, ISubtraction
                 _ => throw new Exception("Invalid operator")
             };
             
-            //return resultInteger.ToString("0.00");
             return resultInteger.ToString();
         }
         
@@ -45,7 +45,6 @@ public class Expression : IMultiplication, IDivision, IAddition, ISubtraction
             _ => throw new Exception("Invalid operator")
         };
         
-        //return resultDouble.ToString("0.00");
         return resultDouble.ToString();
     }
 }
