@@ -16,7 +16,6 @@ public static class Formatting
     {
         for (int i = 0; i < arr.Length; i++)
         {
-            Console.Write($"Checking: {arr[i]}");
             if (Validation.IsDouble(arr[i]))
             {
                 arr[i] = IsUnformattedDouble(arr[i]);

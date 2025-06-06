@@ -33,10 +33,8 @@ public class Calculator
             string right = expressionArray[opIndex + 1];
                 
             // execute part of the expression
-            //Calculate calc = new Calculate();
             string result = Expression.Calc(left, op, right);
-            
-            //result = Formatting.IsUnformattedDouble(result);
+                 //result = Formatting.IsUnformattedDouble(result);
             
             // replace the part of the expression with the result
             List<string> tempList = new List<string>();
