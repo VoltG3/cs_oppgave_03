@@ -13,7 +13,7 @@ public class Calculator
         // Line ...
         int totalLength = expressionString.Length;
             totalLength += 17;
-            printer.AddTotalLength(totalLength.ToString());
+            printer.SetTotalLength(totalLength.ToString());
         
         printer.AddList(expressionArray.ToList());
         
