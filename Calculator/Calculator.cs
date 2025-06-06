@@ -5,9 +5,7 @@ public class Calculator
     public static void Calc(string expressionString)
     {
         // Initialize
-        string[] expressionArray = expressionString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                 expressionArray = Formatting.IsUnformattedDoubleInArray(expressionArray);
-        
+        string[] token = Helper.PrepareExpression(expressionString);
         Printer printer = new Printer();
         
         // Line ...
@@ -15,22 +13,22 @@ public class Calculator
             totalLength += 17;
             printer.SetTotalLength(totalLength.ToString());
         
-        printer.AddList(expressionArray.ToList());
+        printer.AddList(token.ToList());
         
-        while (expressionArray.Length > 1)
+        while (token.Length > 1)
         {
             // get the next priority operator
-            var opIndex = Operator.Index(expressionArray);
+            var opIndex = Operator.Index(token);
             
             // set the next priority operator, for printer
             printer.AddStep(opIndex.ToString());
             
-            if (opIndex == -1 || opIndex <= 0 || opIndex >= expressionArray.Length - 1)
+            if (opIndex == -1 || opIndex <= 0 || opIndex >= token.Length - 1)
                 break;
             
-            string left = expressionArray[opIndex - 1];
-            string op = expressionArray[opIndex];
-            string right = expressionArray[opIndex + 1];
+            string left = token[opIndex - 1];
+            string op = token[opIndex];
+            string right = token[opIndex + 1];
                 
             // execute part of the expression
             string result = Expression.Calc(left, op, right);
@@ -39,7 +37,7 @@ public class Calculator
             // replace the part of the expression with the result
             List<string> tempList = new List<string>();
                 
-            for (int j = 0; j < expressionArray.Length; j++)
+            for (int j = 0; j < token.Length; j++)
             {
                 if (j == opIndex - 1) 
                 { 
@@ -48,17 +46,17 @@ public class Calculator
                 
                 if (j != opIndex && j != opIndex + 1 && j != opIndex - 1)
                 { 
-                    tempList.Add(expressionArray[j]);
+                    tempList.Add(token[j]);
                 }
             }
             
             // set the new expressionArray
-            expressionArray = tempList.ToArray();
+            token = tempList.ToArray();
             
             //Console.WriteLine($"Result { result }");
             
             // set the new expressionArray to printer
-            printer.AddList(expressionArray.ToList());
+            printer.AddList(token.ToList());
             
         }
         
