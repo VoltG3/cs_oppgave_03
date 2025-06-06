@@ -1,6 +1,6 @@
 ## cs_oppgave_03
 ___
-### Pseudocode
+#### Pseudocode
 ```sh
 // ToDo :
 //      1. Recursively process the array until array.Length == 1
@@ -11,3 +11,17 @@ ___
 //      5. Replace P[i-1] with expression result
 //      6. Repeat from step 1 with the updated array
 ```
+
+#### Cycle example
+```sha
+//      Step 1 : 10 + 10 + 10 + 10 + 10 + 10 + 10 + 10 + 10 
+//      Step 2 : 20 + 10 + 10 + 10 + 10 + 10 + 10 + 10 
+//      Step 3 : 30 + 10 + 10 + 10 + 10 + 10 + 10 
+//      Step 4 : 40 + 10 + 10 + 10 + 10 + 10 
+//      Step 5 : 50 + 10 + 10 + 10 + 10 
+//      Step 6 : 60 + 10 + 10 + 10 
+//      Step 7 : 70 + 10 + 10 
+//      Step 8 : 80 + 10
+//      Step 9 : 100  
+```
+
