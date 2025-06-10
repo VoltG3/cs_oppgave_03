@@ -8,9 +8,9 @@ public class Calculator
         var printer = new Printer();
 
         int paddingLength = Helper.CalculatePaddingLength(expressionString);
-        printer.SetTotalLength(paddingLength.ToString());
+        printer.SetHorizontalLineWidth(paddingLength.ToString());
         
-        printer.AddList(tokens.ToList());
+        printer.AddToExpressionSequences(tokens.ToList());
         
         var parenthesisSets = Validation.HasParenthesesSets(tokens);
         Console.WriteLine(parenthesisSets);
@@ -47,16 +47,16 @@ public class Calculator
             .Take(endIndex - startIndex - 1)
             .ToArray();
         
-        //printer.AddList(tokens.ToList());
+        //printer.AddToExpressionSequences(tokens.ToList());
         
         // processing extension part
         while (innerTokens.Length > 1)
         {
             int operatorIndex = Operator.Index(innerTokens);
-            if (Helper.IsInvalidOperatorIndex(operatorIndex, innerTokens.Length))
-                break;
+           // if (Helper.IsInvalidOperatorIndex(operatorIndex, innerTokens.Length))
+            //    break;
 
-            printer.AddStep((startIndex + 1 + operatorIndex).ToString());
+            printer.AddToOperationSteps((startIndex + 1 + operatorIndex).ToString());
         
             string left = innerTokens[operatorIndex - 1];
             string op = innerTokens[operatorIndex];
@@ -72,7 +72,7 @@ public class Calculator
                 .Concat(tokens.Skip(endIndex))
                 .ToArray();
         
-            printer.AddList(newTokens.ToList());
+            printer.AddToExpressionSequences(newTokens.ToList());
             tokens = newTokens;
             endIndex = startIndex + innerTokens.Length + 1;
         }
@@ -85,7 +85,7 @@ public class Calculator
                 .Concat(tokens.Skip(endIndex + 1))
                 .ToArray();
         
-            printer.AddList(finalTokens.ToList());
+            printer.AddToExpressionSequences(finalTokens.ToList());
             return finalTokens;
         }
     
@@ -107,7 +107,7 @@ public class Calculator
             //
             //
             //
-            printer.AddStep(operatorIndex.ToString());
+            printer.AddToOperationSteps(operatorIndex.ToString());
             
             string left = tokens[operatorIndex - 1];
             string op = tokens[operatorIndex];
@@ -117,7 +117,7 @@ public class Calculator
 
             List<string> updatedTokens = Helper.ReplaceWithResult(tokens, operatorIndex, result);
             tokens = updatedTokens.ToArray();
-            printer.AddList(updatedTokens);
+            printer.AddToExpressionSequences(updatedTokens);
         }
     }
 }

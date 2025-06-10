@@ -6,7 +6,8 @@ public class Content
     {
         for (int index = 0; index < steps.Count; index++)
         {
-            Console.Write($"{TextFormat.Border(8)}{TextColor.Color.CY_B}" +
+            Console.Write($"{ TextFormat.Border(8) }" +
+                          $"{ TextColor.Color.CY_B }" +
                           $"Step" +
                           $"{ (char)160 }" +
                           $"{ TextColor.Color.YL_B }" +
@@ -14,7 +15,7 @@ public class Content
                           $"{ TextColor.Color.RS }" +
                           $"{ (char)160 }" +
                           $":" +
-                          $"{TextColor.Color.RS} ");
+                          $"{ TextColor.Color.RS } ");
 
             for (int i = 0; i < sequences[index].Count; i++)
             {

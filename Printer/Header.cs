@@ -4,15 +4,18 @@ public class Header
 {
     public void Print(string totalLength, List<string> expression)
     {
-        Console.WriteLine($"{TextFormat.Border(3)}{TextColor.Color.CY_B}" +
-                          $"{TextFormat.HorizontalLine(int.Parse(totalLength))}" +
-                          $"{TextColor.Color.RS}");
+        Console.WriteLine($"{ TextFormat.Border(3) }" +
+                          $"{ TextColor.Color.CY_B }" +
+                          $"{ TextFormat.HorizontalLine(int.Parse(totalLength)) }" +
+                          $"{ TextColor.Color.RS }");
 
-        Console.Write($"{TextFormat.Border(5)}{TextColor.Color.CY_B}Expression :" +
-                      $"{TextColor.Color.RS} ");
+        Console.Write($"{ TextFormat.Border(5) }" +
+                      $"{ TextColor.Color.CY_B }" +
+                      $"Expression :" +
+                      $"{ TextColor.Color.RS } ");
 
         foreach (var item in expression)
-            Console.Write($"{TextColor.Color.RD}{item}{TextColor.Color.RS} ");
+            Console.Write($"{ TextColor.Color.RD }{item}{ TextColor.Color.RS } ");
 
         Console.WriteLine();
     }

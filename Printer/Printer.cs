@@ -14,9 +14,9 @@ public class Printer
     private readonly Content _content = new();
     private readonly Footer _footer = new();
 
-    public void AddList(List<string> list) => _data.ExpressionSequences.Add(list);
-    public void AddStep(string step) => _data.OperationSteps.Add(step);
-    public void SetTotalLength(string value) => _data.TotalLength = value;
+    public void AddToExpressionSequences(List<string> list) => _data.ExpressionSequences.Add(list);
+    public void AddToOperationSteps(string step) => _data.OperationSteps.Add(step);
+    public void SetHorizontalLineWidth(string value) => _data.TotalLength = value;
 
     public void CalculatingSequence()
     {
