@@ -2,27 +2,28 @@ namespace cs_oppgave_03;
 
 public class Printer
 {
-    public Header Header { get; } = new Header();
-    public Content Content { get; } = new Content();
-    public Footer Footer { get; } = new Footer();
+    private class PrinterData
+    {
+        public List<List<string>> ExpressionSequences { get; } = new();
+        public List<string> OperationSteps { get; } = new();
+        public string TotalLength { get; set; } = "0";
+    }
 
-   
-    public List<List<string>> ExpressionSequences { get; } = new();
-    public List<string> OperationSteps { get; } = new();
-    public string TotalLength { get; private set; } = "0";
+    private readonly PrinterData _data = new();
+    private readonly Header _header = new();
+    private readonly Content _content = new();
+    private readonly Footer _footer = new();
 
-    
-    public void AddList(List<string> list) => ExpressionSequences.Add(list);
-    public void AddStep(string step) => OperationSteps.Add(step);
-    public void SetTotalLength(string value) => TotalLength = value;
+    public void AddList(List<string> list) => _data.ExpressionSequences.Add(list);
+    public void AddStep(string step) => _data.OperationSteps.Add(step);
+    public void SetTotalLength(string value) => _data.TotalLength = value;
 
-   
     public void CalculatingSequence()
     {
-        if (ExpressionSequences.Count == 0) return;
+        if (_data.ExpressionSequences.Count == 0) return;
 
-        Header.Print(TotalLength, ExpressionSequences[0]);
-        Content.Print(ExpressionSequences, OperationSteps);
-        Footer.Print(TotalLength, string.Join(" ", ExpressionSequences[^1]));
+        _header.Print(_data.TotalLength, _data.ExpressionSequences[0]);
+        _content.Print(_data.ExpressionSequences, _data.OperationSteps);
+        _footer.Print(_data.TotalLength, string.Join(" ", _data.ExpressionSequences[^1]));
     }
 }

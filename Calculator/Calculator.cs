@@ -46,7 +46,9 @@ public class Calculator
             .Skip(startIndex + 1)
             .Take(endIndex - startIndex - 1)
             .ToArray();
-
+        
+        //printer.AddList(tokens.ToList());
+        
         // processing extension part
         while (innerTokens.Length > 1)
         {
@@ -75,7 +77,7 @@ public class Calculator
             endIndex = startIndex + innerTokens.Length + 1;
         }
 
-        // replace parenthesis with result
+        // replace parenthesis with a result
         if (innerTokens.Length == 1)
         {
             var finalTokens = tokens.Take(startIndex)
@@ -90,7 +92,7 @@ public class Calculator
         return tokens;
     }
     
-    public static void CalcFlat(string[] tokens, Printer printer)
+    private static void CalcFlat(string[] tokens, Printer printer)
     {
         while (tokens.Length > 1)
         {
