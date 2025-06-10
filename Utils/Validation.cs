@@ -47,54 +47,49 @@ public class Validation
         }
     }
     
-    public static bool UserInput(string userString)
+    public static bool UserInput(string rawInput)
     {
+        string userString = ValidateWithSpaces(rawInput);
         string[] token = userString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        var invalidIndices = new List<int>();
-        bool isTokenCorrupted = false;
-        
-        bool isParenthesisCountinvalid = false;
-        int parenthesisStart = 0;
-        int parenthesisEnd = 0;
-        
+
+        var invalid = new HashSet<int>();          // set of token indices to be colored red
+        var openParenStack = new Stack<int>();     // stores indices of open parentheses tokens
+
+        // Iterate through each token
         for (int i = 0; i < token.Length; i++)
         {
-            string tokenItem = token[i];
-            
-            bool isInt = IsInteger(tokenItem);
-            bool isDouble = IsDouble(tokenItem);
-            bool isOperator = IsOperator(tokenItem);
-            bool isParentheses = IsParentheses(tokenItem);
-            
-            if (!(isInt || isDouble || isOperator || isParentheses))
-            {
-                invalidIndices.Add(i);
-                isTokenCorrupted = true;
-            }
+            string tk = token[i];
+        
+            bool isValid = IsInteger(tk) || IsDouble(tk) || IsOperator(tk) || IsParentheses(tk);
+            if (!isValid) invalid.Add(i);
 
-            if (tokenItem == "(")
+            // specially scans each character for bracket balance
+            foreach (char ch in tk)
             {
-                parenthesisStart += 1;
-            }
-
-            if (tokenItem == ")")
-            {
-                parenthesisEnd += 1;
+                if (ch == '(')
+                { 
+                    openParenStack.Push(i);        // open parenthesis – notes in which token
+                }
+                
+                else if (ch == ')')
+                {
+                    if (openParenStack.Count > 0)
+                        openParenStack.Pop();      // closes the last one opened
+                    else
+                        invalid.Add(i);            // superfluous closing
+                }
             }
         }
 
-        if (parenthesisStart != parenthesisEnd)
+        // if there are any unopened parentheses, mark their token.
+        while (openParenStack.Count > 0)
+            invalid.Add(openParenStack.Pop());
+        
+        if (invalid.Count > 0)
         {
-            isTokenCorrupted = true;
-        }
-
-        if (isTokenCorrupted)
-        {
-            var invalid = new HashSet<int>(invalidIndices);
-            
             TextFormat.Space(1);
-            Console.WriteLine($"{ TextFormat.Border(3)}{ TextColor.Color.RD_B }Invalid input{ TextColor.Color.RS }");
-            
+            Console.WriteLine($"{ TextFormat.Border(3) }{ TextColor.Color.RD_B }Invalid input{ TextColor.Color.RS }");
+
             Console.Write($"{ TextFormat.Border(3) }");
             for (int i = 0; i < token.Length; i++)
             {
@@ -103,9 +98,9 @@ public class Validation
             }
             TextFormat.Space(1);
             
-            return true;
+            return true;           
         }
         
-        return false;
+        return false;              
     }
 }

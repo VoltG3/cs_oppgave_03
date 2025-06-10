@@ -6,7 +6,7 @@ class Program
     {
         
         //string preDefinedUserInput = "12.965 + 12.345 - 4.00 * 3 / 7 - 4 + 12 * 7 / 10 - 5 + 6 + 10";
-        string userInput = "10.786 - ((15.2334) -45.0412";
+        string userInput = "10.786 - ((15.2334) -45.0412 - f";
         string formattedUserInput = Validation.ValidateWithSpaces(userInput);
         
         // ToDo -> readLine userInput
@@ -21,7 +21,7 @@ class Program
         
         if (Validation.UserInput(formattedUserInput)) return;
         //Calculator.Calc(formattedUserInput);
-
+        
         
     }
 }
