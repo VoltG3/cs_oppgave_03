@@ -11,15 +11,102 @@ public class Calculator
         printer.SetTotalLength(paddingLength.ToString());
         
         printer.AddList(tokens.ToList());
+        
+        var parenthesisSets = Validation.HasParenthesesSets(tokens);
+        Console.WriteLine(parenthesisSets);
+        
+        // if parenthesis exists
+        bool hasParentheses;
+        do
+        {
+            hasParentheses = false;
+            var (startIndex, endIndex) = Helper.FindDeepestParenthesesIndices(tokens);
+        
+            if (startIndex != -1 && endIndex != -1)
+            {
+                hasParentheses = true;
+                tokens = ProcessParentheses(startIndex, endIndex, tokens, printer);
+            }
+        } 
+        while (hasParentheses);
 
+        // if no more parenthesis, processing rest of expression
+        if (tokens.Length > 1)
+        {
+            CalcFlat(tokens, printer);
+        }
+
+        printer.CalculatingSequence();
+    }
+
+    private static string[] ProcessParentheses(int startIndex, int endIndex, string[] tokens, Printer printer)
+    {
+        // get extension part in the parenthesis
+        string[] innerTokens = tokens
+            .Skip(startIndex + 1)
+            .Take(endIndex - startIndex - 1)
+            .ToArray();
+
+        // processing extension part
+        while (innerTokens.Length > 1)
+        {
+            int operatorIndex = Operator.Index(innerTokens);
+            if (Helper.IsInvalidOperatorIndex(operatorIndex, innerTokens.Length))
+                break;
+
+            printer.AddStep((startIndex + 1 + operatorIndex).ToString());
+        
+            string left = innerTokens[operatorIndex - 1];
+            string op = innerTokens[operatorIndex];
+            string right = innerTokens[operatorIndex + 1];
+
+            string result = Expression.Calc(left, op, right);
+
+            innerTokens = Helper.ReplaceWithResult(innerTokens, operatorIndex, result).ToArray();
+        
+            // renew head tokens
+            var newTokens = tokens.Take(startIndex + 1)
+                .Concat(innerTokens)
+                .Concat(tokens.Skip(endIndex))
+                .ToArray();
+        
+            printer.AddList(newTokens.ToList());
+            tokens = newTokens;
+            endIndex = startIndex + innerTokens.Length + 1;
+        }
+
+        // replace parenthesis with result
+        if (innerTokens.Length == 1)
+        {
+            var finalTokens = tokens.Take(startIndex)
+                .Concat(new[] { innerTokens[0] })
+                .Concat(tokens.Skip(endIndex + 1))
+                .ToArray();
+        
+            printer.AddList(finalTokens.ToList());
+            return finalTokens;
+        }
+    
+        return tokens;
+    }
+    
+    public static void CalcFlat(string[] tokens, Printer printer)
+    {
         while (tokens.Length > 1)
         {
+            
+            // search for next operator index in array
             int operatorIndex = Operator.Index(tokens);
+            //Console.WriteLine(operatorIndex);
+            
             if (Helper.IsInvalidOperatorIndex(operatorIndex, tokens.Length))
                 break;
 
+            //
+            //
+            //
             printer.AddStep(operatorIndex.ToString());
-
+            
             string left = tokens[operatorIndex - 1];
             string op = tokens[operatorIndex];
             string right = tokens[operatorIndex + 1];
@@ -30,7 +117,5 @@ public class Calculator
             tokens = updatedTokens.ToArray();
             printer.AddList(updatedTokens);
         }
-
-        printer.CalculatingSequence();
     }
 }

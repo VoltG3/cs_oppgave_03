@@ -33,4 +33,36 @@ public class Helper
 
         return list;
     }
+    
+    public static (int startIndex, int endIndex) FindDeepestParenthesesIndices(string[] str)
+    {
+        int maxDepth = -1;
+        int currentDepth = 0;
+        int deepestStartIndex = -1;
+        int deepestEndIndex = -1;
+
+        for (int i = 0; i < str.Length; i++)
+        {
+            if (str[i] == "(")
+            {
+                currentDepth++;
+                if (currentDepth > maxDepth)
+                {
+                    maxDepth = currentDepth;
+                    deepestStartIndex = i;
+                    deepestEndIndex = -1; // Reset end index when we find new deeper opening
+                }
+            }
+            else if (str[i] == ")")
+            {
+                if (currentDepth == maxDepth && deepestEndIndex == -1)
+                {
+                    deepestEndIndex = i;
+                }
+                currentDepth--;
+            }
+        }
+
+        return (deepestStartIndex, deepestEndIndex);
+    }
 }

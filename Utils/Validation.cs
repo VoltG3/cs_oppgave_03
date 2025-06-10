@@ -5,6 +5,30 @@ namespace cs_oppgave_03;
 
 public class Validation
 {
+    public static int HasParenthesesSets(string[] tokens)
+    {
+        var countOfParenthesisSets = 0;
+        var openParentheses = 0;
+    
+        for (int i = 0; i < tokens.Length; i++)
+        {
+            if (tokens[i] == "(")
+            {
+                openParentheses++;
+            }
+            else if (tokens[i] == ")")
+            {
+                if (openParentheses > 0)
+                {
+                    countOfParenthesisSets++;
+                    openParentheses--;
+                }
+            }
+        }
+    
+        return countOfParenthesisSets;
+    }
+    
     public static string ValidateWithSpaces(string input)
     {
         string output = Regex.Replace(input, @"([+\-*/()])", " $1 ");
