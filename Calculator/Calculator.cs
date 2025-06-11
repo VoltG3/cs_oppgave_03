@@ -10,6 +10,24 @@ public class Calculator
         int paddingLength = Helper.CalculatePaddingLength(expressionString);
         printer.SetHorizontalLineWidth(paddingLength.ToString());
         
+        //printer.AddToExpressionSequences(Helper.PrepareExpressionForPrinter(tokens.ToList()));
+        
+        Debug.DebuggArray(tokens);
+        
+        //printer.AddToExpressionSequences(tokens.ToList());
+        
+        var tpm = tokens;
+        var tmpR = Helper.PrepareExpressionForPrinter(tpm);
+
+        foreach (var item in tmpR)
+        {
+            Console.Write($"{item}{(char)160}");
+        }
+        
+        //Console.WriteLine(tmpR);
+        
+        //Debug.DebuggArray(tokens);(6 + 5) - (5 - 5)
+        //printer.AddToExpressionSequences(Helper.PrepareExpressionForPrinter(tokens).ToList());
         printer.AddToExpressionSequences(tokens.ToList());
         
         // if parenthesis exists
@@ -58,7 +76,14 @@ public class Calculator
                 .Concat(tokens.Skip(end + 1))
                 .ToArray();
 
+            
+            
+            
+            
+            
+            
             printer.AddToExpressionSequences(noBrackets.ToList());
+            //printer.AddToExpressionSequences(Helper.PrepareExpressionForPrinter(tokens).ToList());
             return noBrackets;
         }
 
@@ -92,6 +117,7 @@ public class Calculator
                 .ToArray();
 
         printer.AddToExpressionSequences(updatedTokens.ToList());
+        //printer.AddToExpressionSequences(Helper.PrepareExpressionForPrinter(tokens).ToList());
         return updatedTokens;
     }
 
@@ -122,7 +148,9 @@ public class Calculator
 
             List<string> updatedTokens = Helper.ReplaceWithResult(tokens, operatorIndex, result);
             tokens = updatedTokens.ToArray();
+            
             printer.AddToExpressionSequences(updatedTokens);
+            //printer.AddToExpressionSequences(Helper.PrepareExpressionForPrinter(tokens).ToList());
         }
     }
 }

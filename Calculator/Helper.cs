@@ -1,13 +1,68 @@
+using System.Text.RegularExpressions;
+
 namespace cs_oppgave_03;
 
 public class Helper
 {
     public static string[] PrepareExpression(string expression)
     {
-        var array = expression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        return Formatting.IsUnformattedDoubleInArray(array);
+        var matches = Regex.Matches(expression, @"(?<!\d|\))-\d+(\.\d+)?|\d+(\.\d+)?|[+*/()\-]");
+
+        //return matches.Select(m => m.Value).ToArray();
+       // var array = expression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        return Formatting.IsUnformattedDoubleInArray(matches.Select(m => m.Value).ToArray());
     }
 
+    /*
+    public static string PrepareExpressionForPrinter(string expression)
+    {
+        // remove space before and after brackets
+        string result = Regex.Replace(expression, @"\(\s+", "("); // remove space after (
+        result = Regex.Replace(result, @"\s+\)", ")");            // remove space before )
+    
+        // remove space between brackets and numbers
+        result = Regex.Replace(result, @"\s*\(\s*", "(");         // remove all spaces beforea nd after (
+        result = Regex.Replace(result, @"\s*\)\s*", ")");         // remove all spaces beforea nd after )
+
+        return result;
+    }
+   */
+   
+    public static string[] PrepareExpressionForPrinter(string[] tokens)
+    {
+        var result = new List<string>();
+        string prefix = "";          
+                                   
+        foreach (var t in tokens)
+        {
+            if (t == "(")
+            {
+                prefix += "(";        
+                continue;
+            }
+
+            if (t == ")")
+            {
+                if (result.Count > 0) 
+                    result[^1] += ")";
+
+                continue;
+            }
+
+            
+            string token = prefix.Length > 0 ? prefix + t : t;
+            prefix = "";              
+            result.Add(token);
+        }
+
+       
+        if (prefix.Length > 0)
+            result.Add(prefix);
+
+        return result.ToArray();
+    }
+
+    
     public static int CalculatePaddingLength(string expression)
     {
         const int basePadding = 17;

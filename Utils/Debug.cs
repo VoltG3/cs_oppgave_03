@@ -9,6 +9,6 @@ public class Debug
             Console.Write($"{ item }{ (char)160 }");
         }
         
-        Console.WriteLine();
+        Console.WriteLine("T");
     }
 }
