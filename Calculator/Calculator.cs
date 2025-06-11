@@ -12,20 +12,22 @@ public class Calculator
         
         printer.AddToExpressionSequences(tokens.ToList());
         
-        var parenthesisSets = Validation.HasParenthesesSets(tokens);
-        Console.WriteLine(parenthesisSets);
-        
         // if parenthesis exists
         bool hasParentheses;
         do
         {
             hasParentheses = false;
             var (startIndex, endIndex) = Helper.FindDeepestParenthesesIndices(tokens);
-        
+    
             if (startIndex != -1 && endIndex != -1)
             {
                 hasParentheses = true;
                 tokens = ProcessParentheses(startIndex, endIndex, tokens, printer);
+                
+                // for printer count of parenthesis sets
+                var parenthesisSets = Validation.HasParenthesesSets(tokens);
+                Console.WriteLine(parenthesisSets);
+                printer.SetExpressionHasParenthesis(parenthesisSets.ToString());
             }
         } 
         while (hasParentheses);
@@ -39,58 +41,61 @@ public class Calculator
         printer.CalculatingSequence();
     }
 
-    private static string[] ProcessParentheses(int startIndex, int endIndex, string[] tokens, Printer printer)
+    private static string[] ProcessParentheses(int start, int end, string[] tokens, Printer printer)
     {
-        // get extension part in the parenthesis
-        string[] innerTokens = tokens
-            .Skip(startIndex + 1)
-            .Take(endIndex - startIndex - 1)
+        // content between parenthesis
+        var innerTokens = tokens.Skip(start + 1)
+            .Take(end - start - 1)
             .ToArray();
-        
-        //printer.AddToExpressionSequences(tokens.ToList());
-        
-        // processing extension part
-        while (innerTokens.Length > 1)
-        {
-            int operatorIndex = Operator.Index(innerTokens);
-           // if (Helper.IsInvalidOperatorIndex(operatorIndex, innerTokens.Length))
-            //    break;
 
-            printer.AddToOperationSteps((startIndex + 1 + operatorIndex).ToString());
-        
-            string left = innerTokens[operatorIndex - 1];
-            string op = innerTokens[operatorIndex];
-            string right = innerTokens[operatorIndex + 1];
+        Debug.DebuggArray(innerTokens);
 
-            string result = Expression.Calc(left, op, right);
-
-            innerTokens = Helper.ReplaceWithResult(innerTokens, operatorIndex, result).ToArray();
-        
-            // renew head tokens
-            var newTokens = tokens.Take(startIndex + 1)
-                .Concat(innerTokens)
-                .Concat(tokens.Skip(endIndex))
-                .ToArray();
-        
-            printer.AddToExpressionSequences(newTokens.ToList());
-            tokens = newTokens;
-            endIndex = startIndex + innerTokens.Length + 1;
-        }
-
-        // replace parenthesis with a result
+        // if inside only one number, then remove parenthesis
         if (innerTokens.Length == 1)
         {
-            var finalTokens = tokens.Take(startIndex)
-                .Concat(new[] { innerTokens[0] })
-                .Concat(tokens.Skip(endIndex + 1))
+            var noBrackets = tokens.Take(start)
+                .Concat(innerTokens)        // alone number
+                .Concat(tokens.Skip(end + 1))
                 .ToArray();
-        
-            printer.AddToExpressionSequences(finalTokens.ToList());
-            return finalTokens;
+
+            printer.AddToExpressionSequences(noBrackets.ToList());
+            return noBrackets;
         }
-    
-        return tokens;
+
+        // else execute only one operation
+        int opIndex = Operator.Index(innerTokens);
+
+        if (opIndex <= 0 || opIndex + 1 >= innerTokens.Length)
+            return tokens;
+
+        printer.AddToOperationSteps((start + 1 + opIndex).ToString());
+
+        string left  = innerTokens[opIndex - 1];
+        string op    = innerTokens[opIndex];
+        string right = innerTokens[opIndex + 1];
+
+        string result = Expression.Calc(left, op, right);
+
+        innerTokens = Helper.ReplaceWithResult(innerTokens, opIndex, result).ToArray();
+
+        // after calculating check: (delete or not) parenthesis
+        string[] updatedTokens = (innerTokens.Length == 1)
+            ?  // one token, then remove parenthesis
+            tokens.Take(start)
+                .Concat(innerTokens)
+                .Concat(tokens.Skip(end + 1))
+                .ToArray()
+            :  // more than one token, then no remove parenthesis
+            tokens.Take(start + 1)
+                .Concat(innerTokens)
+                .Concat(tokens.Skip(end))
+                .ToArray();
+
+        printer.AddToExpressionSequences(updatedTokens.ToList());
+        return updatedTokens;
     }
+
+
     
     private static void CalcFlat(string[] tokens, Printer printer)
     {

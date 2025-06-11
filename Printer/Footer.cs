@@ -6,7 +6,10 @@ public class Footer
     {
         Console.Write($"{ TextFormat.Border(5) }" +
                       $"{ TextColor.Color.CY_B }" +
-                      $"Calculator :" +
+                      $"Calculator" +
+                      $"{ (char)160 }" +
+                      $"{ (char)8801 }" +
+                      $"{ (char)8801 }" +
                       $"{ (char)160 }" +
                       $"{ TextColor.Color.RS }" +
                       $"{ TextColor.Color.RD }" +

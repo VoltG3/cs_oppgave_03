@@ -7,6 +7,7 @@ public class Printer
         public List<List<string>> ExpressionSequences { get; } = new();
         public List<string> OperationSteps { get; } = new();
         public string TotalLength { get; set; } = "0";
+        public List<string> ExpressionHasParenthesis { get; } = new();
     }
 
     private readonly PrinterData _data = new();
@@ -17,13 +18,14 @@ public class Printer
     public void AddToExpressionSequences(List<string> list) => _data.ExpressionSequences.Add(list);
     public void AddToOperationSteps(string step) => _data.OperationSteps.Add(step);
     public void SetHorizontalLineWidth(string value) => _data.TotalLength = value;
+    public void SetExpressionHasParenthesis(string brackets) => _data.ExpressionHasParenthesis.Add(brackets);
 
     public void CalculatingSequence()
     {
         if (_data.ExpressionSequences.Count == 0) return;
 
         _header.Print(_data.TotalLength, _data.ExpressionSequences[0]);
-        _content.Print(_data.ExpressionSequences, _data.OperationSteps);
+        _content.Print(_data.ExpressionSequences, _data.OperationSteps, _data.ExpressionHasParenthesis);
         _footer.Print(_data.TotalLength, string.Join(" ", _data.ExpressionSequences[^1]));
     }
 }

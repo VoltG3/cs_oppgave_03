@@ -13,12 +13,12 @@ public class Helper
         const int basePadding = 17;
         return expression.Length + basePadding;
     }
-    
+
     public static bool IsInvalidOperatorIndex(int index, int length)
     {
         return index <= 0 || index >= length;
     }
-    
+
     public static List<string> ReplaceWithResult(string[] array, int opIndex, string result)
     {
         var list = new List<string>();
@@ -33,36 +33,35 @@ public class Helper
 
         return list;
     }
-    
-    public static (int startIndex, int endIndex) FindDeepestParenthesesIndices(string[] str)
-    {
-        int maxDepth = -1;
-        int currentDepth = 0;
-        int deepestStartIndex = -1;
-        int deepestEndIndex = -1;
 
-        for (int i = 0; i < str.Length; i++)
+    public static (int startIndex, int endIndex) FindDeepestParenthesesIndices(string[] tokens)
+    {
+        int currentDepth = 0;
+        var stack = new Stack<(int index, int depth)>();
+        var matchedPairs = new List<(int start, int end, int depth)>();
+
+        for (int i = 0; i < tokens.Length; i++)
         {
-            if (str[i] == "(")
+            if (tokens[i] == "(")
             {
                 currentDepth++;
-                if (currentDepth > maxDepth)
-                {
-                    maxDepth = currentDepth;
-                    deepestStartIndex = i;
-                    deepestEndIndex = -1; // Reset end index when we find new deeper opening
-                }
+                stack.Push((i, currentDepth));
             }
-            else if (str[i] == ")")
+            else if (tokens[i] == ")")
             {
-                if (currentDepth == maxDepth && deepestEndIndex == -1)
+                if (stack.Count > 0)
                 {
-                    deepestEndIndex = i;
+                    var (start, depth) = stack.Pop();
+                    matchedPairs.Add((start, i, depth));
+                    currentDepth--;
                 }
-                currentDepth--;
             }
         }
 
-        return (deepestStartIndex, deepestEndIndex);
+        if (matchedPairs.Count == 0) return (-1, -1);
+
+        // Atrodam dziļāko pāri
+        var deepest = matchedPairs.OrderByDescending(p => p.depth).First();
+        return (deepest.start, deepest.end);
     }
 }

@@ -11,7 +11,10 @@ public class Header
 
         Console.Write($"{ TextFormat.Border(5) }" +
                       $"{ TextColor.Color.CY_B }" +
-                      $"Expression :" +
+                      $"Expression" +
+                      $"{ (char)160 }" +
+                      $"{ (char)8801 }" +
+                      $"{ (char)8801 }" +
                       $"{ TextColor.Color.RS } ");
 
         foreach (var item in expression)

@@ -2,17 +2,33 @@ namespace cs_oppgave_03;
 
 public class Content
 {
-    public void Print(IReadOnlyList<List<string>> sequences, IReadOnlyList<string> steps)
+    public void Print(IReadOnlyList<List<string>> sequences, IReadOnlyList<string> steps, IReadOnlyList<string> brackets)
     {
+        //Debug.DebuggArray(brackets.ToArray());
+
+        //var temp = brackets[1];
+        
         for (int index = 0; index < steps.Count; index++)
         {
-            Console.Write($"{ TextFormat.Border(8) }" +
+            string bracketCount = "";
+            int justifyBorder = 8;
+
+            // checking if there is any data in the index
+            if (index < brackets.Count && int.TryParse(brackets[index], out int parsedCount) && parsedCount > 0)
+            {
+                justifyBorder = 5;
+                bracketCount = $"{ TextColor.Color.YL_B }({parsedCount}){ TextColor.Color.RS }";
+            }
+            
+            Console.Write($"{ TextFormat.Border(justifyBorder) }" +
+                          $"{ bracketCount }" +
+                          $"{ (char)160 }" +
                           $"{ TextColor.Color.CY_B }" +
                           $"Step" +
                           $"{ (char)160 }" +
-                          $"{ TextColor.Color.YL_B }" +
+                          //$"{ TextColor.Color.YL_B }" +
                           $"{index + 1,2}" +
-                          $"{ TextColor.Color.RS }" +
+                          //$"{ TextColor.Color.RS }" +
                           $"{ (char)160 }" +
                           $":" +
                           $"{ TextColor.Color.RS } ");
