@@ -1,35 +1,7 @@
-using System.Text;
-
 namespace cs_oppgave_03;
 
-public class Content
+public class SectionContent
 {
-    private static string FormatSequence(
-        IReadOnlyList<string> tokens,
-        int opIndex,                    // this step operator index
-        string yellow, string blue, string reset)
-    {
-        var sb = new StringBuilder();
-
-        for (int i = 0; i < tokens.Count; i++)
-        {
-            // should this token highlightes?
-            bool highlight = i == opIndex || i == opIndex - 1 || i == opIndex + 1;
-            string color   = highlight ? yellow : blue;
-
-            sb.Append(color).Append(tokens[i]).Append(reset);
-
-            // need space after tokens?
-            bool nextIsRightParen = (i + 1 < tokens.Count) && tokens[i + 1] == ")";
-            bool thisIsLeftParen  = tokens[i] == "(";
-
-            if (!thisIsLeftParen && !nextIsRightParen)
-                sb.Append(' ');
-        }
-
-        return sb.ToString();
-    }
-
     public void Print(
         IReadOnlyList<List<string>> sequences,
         IReadOnlyList<string> steps,
@@ -37,7 +9,6 @@ public class Content
     {
         for (int idx = 0; idx < steps.Count; idx++)
         {
-            
             int justify = 8;
             string bracketInfo = "";
 
@@ -45,7 +16,10 @@ public class Content
                 int.TryParse(brackets[idx], out int bCount) && bCount > 0)
             {
                 justify = 5;
-                bracketInfo = $"{TextColor.Color.YL_B}({bCount}){TextColor.Color.RS}";
+                bracketInfo = $"{ TextColor.Color.YL_B }" +
+                              $"{ bCount }" +
+                              $"()" +
+                              $"{ TextColor.Color.RS }";
             }
 
             Console.Write($"{ TextFormat.Border(justify) }" +
@@ -54,7 +28,7 @@ public class Content
                           $"{ TextColor.Color.CY_B }" +
                           $"Step" +
                           $"{ (char)160 }" +
-                          $"{idx + 1,2}" +
+                          $"{ idx + 1,2 }" +
                           $"{ (char)160 }" +
                           $":" +
                           $"{ (char)160 }" +
@@ -62,7 +36,7 @@ public class Content
             
             int opIndex = int.Parse(steps[idx]);  
             
-            string line = FormatSequence(
+            string line = PrinterHelper.FormatExpressionCompactForSectionContent(
                 sequences[idx],
                 opIndex,
                 TextColor.Color.YL_B,

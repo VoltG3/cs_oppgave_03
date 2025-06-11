@@ -6,29 +6,7 @@ public class Calculator
     {
         string[] tokens = Helper.PrepareExpression(expressionString);
         var printer = new Printer();
-
-        int paddingLength = Helper.CalculatePaddingLength(expressionString);
-        printer.SetHorizontalLineWidth(paddingLength.ToString());
-        
-        //printer.AddToExpressionSequences(Helper.PrepareExpressionForPrinter(tokens.ToList()));
-        
-        Debug.DebuggArray(tokens);
-        
-        //printer.AddToExpressionSequences(tokens.ToList());
-        
-        var tpm = tokens;
-        var tmpR = Helper.PrepareExpressionForPrinter(tpm);
-
-        foreach (var item in tmpR)
-        {
-            Console.Write($"{item}{(char)160}");
-        }
-        
-        //Console.WriteLine(tmpR);
-        
-        //Debug.DebuggArray(tokens);(6 + 5) - (5 - 5)
-        //printer.AddToExpressionSequences(Helper.PrepareExpressionForPrinter(tokens).ToList());
-        printer.AddToExpressionSequences(tokens.ToList());
+            printer.AddToExpressionSequences(tokens.ToList());
         
         // if parenthesis exists
         bool hasParentheses;
@@ -42,18 +20,17 @@ public class Calculator
                 hasParentheses = true;
                 tokens = ProcessParentheses(startIndex, endIndex, tokens, printer);
                 
-                // for printer count of parenthesis sets
+                // for printer 'count' of parenthesis sets
                 var parenthesisSets = Validation.HasParenthesesSets(tokens);
-                Console.WriteLine(parenthesisSets);
                 printer.SetExpressionHasParenthesis(parenthesisSets.ToString());
             }
         } 
         while (hasParentheses);
 
-        // if no more parenthesis, processing rest of expression
+        // if no more parenthesis, processing rest of the expression
         if (tokens.Length > 1)
         {
-            CalcFlat(tokens, printer);
+            ProcessFlatCalc(tokens, printer);
         }
 
         printer.CalculatingSequence();
@@ -66,7 +43,7 @@ public class Calculator
             .Take(end - start - 1)
             .ToArray();
 
-        Debug.DebuggArray(innerTokens);
+        // Debug.DebuggArray(innerTokens);
 
         // if inside only one number, then remove parenthesis
         if (innerTokens.Length == 1)
@@ -75,15 +52,8 @@ public class Calculator
                 .Concat(innerTokens)        // alone number
                 .Concat(tokens.Skip(end + 1))
                 .ToArray();
-
             
-            
-            
-            
-            
-            
-            printer.AddToExpressionSequences(noBrackets.ToList());
-            //printer.AddToExpressionSequences(Helper.PrepareExpressionForPrinter(tokens).ToList());
+            printer.AddToExpressionSequences(noBrackets.ToList()); ;
             return noBrackets;
         }
 
@@ -117,27 +87,20 @@ public class Calculator
                 .ToArray();
 
         printer.AddToExpressionSequences(updatedTokens.ToList());
-        //printer.AddToExpressionSequences(Helper.PrepareExpressionForPrinter(tokens).ToList());
         return updatedTokens;
     }
-
-
     
-    private static void CalcFlat(string[] tokens, Printer printer)
+    private static void ProcessFlatCalc(string[] tokens, Printer printer)
     {
         while (tokens.Length > 1)
         {
             
-            // search for next operator index in array
+            // search for the next operator index in array
             int operatorIndex = Operator.Index(tokens);
-            //Console.WriteLine(operatorIndex);
             
             if (Helper.IsInvalidOperatorIndex(operatorIndex, tokens.Length))
                 break;
-
-            //
-            //
-            //
+            
             printer.AddToOperationSteps(operatorIndex.ToString());
             
             string left = tokens[operatorIndex - 1];
@@ -150,7 +113,6 @@ public class Calculator
             tokens = updatedTokens.ToArray();
             
             printer.AddToExpressionSequences(updatedTokens);
-            //printer.AddToExpressionSequences(Helper.PrepareExpressionForPrinter(tokens).ToList());
         }
     }
 }
