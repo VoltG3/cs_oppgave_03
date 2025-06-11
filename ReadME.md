@@ -25,8 +25,8 @@ ___
 //      Step 9 : 100  
 ```
 
-<img src="https://github.com/VoltG3/cs_oppgave_03/blob/master/screenshot_01.png" alt="screenshot_01.png" width="100%">
-<img src="https://github.com/VoltG3/cs_oppgave_03/blob/master/screenshot_02.png" alt="screenshot_02.png" width="100%">
-<img src="https://github.com/VoltG3/cs_oppgave_03/blob/master/screenshot_02.png" alt="screenshot_02.png" width="100%">
+<img src="https://github.com/VoltG3/cs_oppgave_03/blob/master/screenshot_1.png" alt="screenshot_1.png" width="100%">
+<img src="https://github.com/VoltG3/cs_oppgave_03/blob/master/screenshot_2.png" alt="screenshot_2.png" width="100%">
+<img src="https://github.com/VoltG3/cs_oppgave_03/blob/master/screenshot_3.png" alt="screenshot_3.png" width="100%">
 
 
