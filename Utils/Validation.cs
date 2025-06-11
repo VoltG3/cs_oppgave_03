@@ -111,10 +111,10 @@ public class Validation
         
         if (invalid.Count > 0)
         {
-            TextFormat.Space(1);
-            Console.WriteLine($"{ TextFormat.Border(3) }{ TextColor.Color.RD_B }Invalid input{ TextColor.Color.RS }");
+            //TextFormat.Space(1);
+            Console.WriteLine($"{ TextFormat.Border(5) }{ TextColor.Color.RD_B }Invalid input{ TextColor.Color.RS }");
 
-            Console.Write($"{ TextFormat.Border(3) }");
+            Console.Write($"{ TextFormat.Border(5) }");
             for (int i = 0; i < token.Length; i++)
             {
                 var color = invalid.Contains(i) ? TextColor.Color.RD_B : TextColor.Color.BL_B;

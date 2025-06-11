@@ -4,10 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        
-        string preDefinedUserInput = "12.965+( ( 10-9.00+4)*(3/7))-4+12*7/10-5+6+10";
-        //string userInput = "10.786 - ((15.2334) -45.0412 - f";
-        //string formattedUserInput = Validation.ValidateWithSpaces(userInput);
+        Console.Clear();
+        string preDefinedUserInput = "100 + 80 - 30 + 13.77 + 0.33 * 13 / 10 * (((12 + 4 * 7)+(6-6)) * (12 + 4 * 7))";
         
         // ToDo -> readLine userInput
         // ToDo -> random expression
@@ -18,10 +16,15 @@ class Program
         
         Calculator.Calc(preDefinedUserInput);
         
+        Console.Write($"{ TextFormat.Border(4)}{ TextColor.Color.CY_B } User Input: ");
+        string userInput = Console.ReadLine();
+        Console.Write($"{ TextColor.Color.RS }");
         
-        //if (Validation.UserInput(formattedUserInput)) return;
-        //Calculator.Calc(formattedUserInput);
+        //string userInput = "10.78656 - (15.2334 + 36.34543) + 45.0412 * 33 / 2";
+        string formattedUserInput = Validation.ValidateWithSpaces(userInput);
         
+        if (Validation.UserInput(formattedUserInput)) return;
         
+        Calculator.Calc(formattedUserInput);
     }
 }
